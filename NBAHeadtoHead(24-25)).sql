@@ -6,43 +6,43 @@ DROP VIEW IF EXISTS v_player_summary;
 DROP VIEW IF EXISTS v_head_to_head;
 
 CREATE TABLE player_stats_raw (
-  player      VARCHAR(100) NOT NULL,
-  team        VARCHAR(10)  NOT NULL,
-  opponent    VARCHAR(10)  NOT NULL,
-  result      VARCHAR(5)   NOT NULL,   -- W/L (sometimes "W +xx")
-  minutes     DECIMAL(5,2) NULL,       -- MP
+  player      VARCHAR(100) NOT NULL,   -- name of player
+  team        VARCHAR(10)  NOT NULL,   -- player's team
+  opponent    VARCHAR(10)  NOT NULL,   -- Opposing team
+  result      VARCHAR(5)   NOT NULL,   -- W/L results
+  minutes     DECIMAL(5,2) NULL,       -- Mins played
 
-  fg          INT NULL,
-  fga         INT NULL,
-  fg_pct      DECIMAL(6,3) NULL,
+  fg          INT NULL,                -- Field goals made
+  fga         INT NULL,                -- Field goal attempts
+  fg_pct      DECIMAL(6,3) NULL,       -- Field goal %
 
-  three_p     INT NULL,               -- 3P
-  three_pa    INT NULL,               -- 3PA
-  three_pct   DECIMAL(6,3) NULL,       -- 3P%
+  three_p     INT NULL,                -- 3Point fg
+  three_pa    INT NULL,                -- 3Point  fg attempted
+  three_pct   DECIMAL(6,3) NULL,       -- 3P fg %
 
-  ft          INT NULL,
-  fta         INT NULL,
-  ft_pct      DECIMAL(6,3) NULL,
+  ft          INT NULL,                -- Free throws Made
+  fta         INT NULL,                -- Free throw attempts
+  ft_pct      DECIMAL(6,3) NULL,       -- Free throw %
 
-  orb         INT NULL,
-  drb         INT NULL,
-  trb         INT NULL,
-  ast         INT NULL,
-  stl         INT NULL,
-  blk         INT NULL,
-  tov         INT NULL,
-  pf          INT NULL,
-  pts         INT NULL,
+  orb         INT NULL,                -- Offensive Rebounds
+  drb         INT NULL,                -- Defensive Rebounds
+  trb         INT NULL,                -- Total Rebounds
+  ast         INT NULL,                -- Assists
+  stl         INT NULL,                -- Steals
+  blk         INT NULL,                -- Blocks
+  tov         INT NULL,                -- Turnovers
+  pf          INT NULL,                -- Personal Fouls
+  pts         INT NULL,                -- Total Points scored
 
-  gmsc        DECIMAL(6,2) NULL,       -- game score
-  game_date   DATE NULL,               -- data
+  gmsc        DECIMAL(6,2) NULL,       -- game score (summary metric)
+  game_date   DATE NULL,               -- data (YYYY-MM-DD)
 
   INDEX idx_player_date (player, game_date),
   INDEX idx_team_date (team, game_date)
 );
 
-CREATE OR REPLACE VIEW v_player_game_clean AS
-SELECT
+CREATE OR REPLACE VIEW v_player_game_clean AS 
+SELECT 
   player, team, opponent, result, minutes,
   fg, fga, fg_pct,
   three_p, three_pa, three_pct,
